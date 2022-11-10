@@ -27,31 +27,21 @@ class ViaCepViewController: UIViewController {
         guard let destination = segue.destination as? CepViewController else {
             fatalError("Não foi possível executar a segue: \(segue.identifier!)")
         }
-//        guard cepPreenchido() else {
-            ViaCepAPI.buscaCep(cep: cepTextField.text!) { (endereco) in
-                DispatchQueue.main.async {
-                    destination.endereco = endereco
-                }
-//            }
-//            return
+        if let _ = sender as? UIButton {
+            realizarBusca(enviarPara: destination)
         }
-        
-//        switch endereco {
-//        case nil:
-//        default:
-//            destination.endereco = endereco
-//        }
-        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            if let lista = lista {
+                destination.endereco = lista.lista[indexPath.row]
+            }
+        }
     }
     
     func realizarBusca(enviarPara destination: CepViewController) {
-        guard cepPreenchido() else {
-            ViaCepAPI.buscaCep(cep: cepTextField.text!) { (endereco) in
-                DispatchQueue.main.async {
-                    destination.endereco = endereco
-                }
+        ViaCepAPI.buscaCep(cep: cepTextField.text!) { (endereco) in
+            DispatchQueue.main.async {
+                destination.endereco = endereco
             }
-            return
         }
     }
     
@@ -62,12 +52,15 @@ class ViaCepViewController: UIViewController {
         return false
     }
     
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//        if endereco == nil && !cepPreenchido() {
-//            return false
-//        }
-//        return true
-//    }
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if let _ = sender as? UIButton, cepPreenchido() {
+            return true
+        }
+        if let _ = sender as? MeusEnderecosViewCell {
+            return true
+        }
+        return false
+    }
 }
 
 extension ViaCepViewController: UITableViewDataSource {
@@ -88,7 +81,8 @@ extension ViaCepViewController: UITableViewDataSource {
 extension ViaCepViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        endereco = lista?.lista[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    
 }

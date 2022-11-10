@@ -21,30 +21,38 @@ class CepViewController: UIViewController {
     
     @IBOutlet weak var botaoSalvar: UIButton!
         
-    var endereco: Endereco? {
-        didSet {
-            setupViews()
-        }
-    }
+    var endereco: Endereco!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setupViews()
+        if let endereco = endereco {
+            setupViews(com: endereco)
+        }
     }
     
-    private func setupViews() {
-        cepTextField.text = endereco?.cep
-        logradouroTextField.text = endereco?.logradouro
-        bairroTextField.text = endereco?.bairro
-        localidadeTextField.text = endereco?.localidade
-        complementoTextField.text = endereco?.complemento
-        apelidoLabel.text = endereco?.apelido
+    private func setupViews(com endereco: Endereco) {
+        cepTextField.text = endereco.cep
+        logradouroTextField.text = endereco.logradouro
+        bairroTextField.text = endereco.bairro
+        localidadeTextField.text = endereco.localidade
         
-        if let numero = endereco?.numero {
+        validaEPreencheCamposOpcionais(com: endereco)
+        
+    }
+    
+    func validaEPreencheCamposOpcionais(com endereco: Endereco) {
+        if let apelido = endereco.apelido {
+            apelidoLabel.text = apelido
+        }
+        
+        if let numero = endereco.numero {
             numeroTextField.text = String(describing: numero)
         }
         
+        if let complemento = endereco.complemento {
+            complementoTextField.text = complemento
+        }
     }
     
     @IBAction func salvarBotaoPressionado(_ sender: UIButton) {
