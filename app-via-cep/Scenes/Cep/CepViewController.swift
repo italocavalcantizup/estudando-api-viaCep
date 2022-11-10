@@ -21,7 +21,7 @@ class CepViewController: UIViewController {
     
     @IBOutlet weak var botaoSalvar: UIButton!
         
-    var endereco: Endereco!
+    var endereco: Endereco?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +36,7 @@ class CepViewController: UIViewController {
         logradouroTextField.text = endereco.logradouro
         bairroTextField.text = endereco.bairro
         localidadeTextField.text = endereco.localidade
+        ufTextField.text = endereco.uf
         
         validaEPreencheCamposOpcionais(com: endereco)
         

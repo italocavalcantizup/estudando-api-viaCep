@@ -30,9 +30,11 @@ class ViaCepViewController: UIViewController {
         if let _ = sender as? UIButton {
             realizarBusca(enviarPara: destination)
         }
-        if let indexPath = tableView.indexPathForSelectedRow {
-            if let lista = lista {
-                destination.endereco = lista.lista[indexPath.row]
+        if let _ = sender as? MeusEnderecosViewCell {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                if let lista = lista {
+                    destination.endereco = lista.lista[indexPath.row]
+                }
             }
         }
     }
