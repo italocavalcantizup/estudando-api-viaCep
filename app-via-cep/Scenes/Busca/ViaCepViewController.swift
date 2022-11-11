@@ -43,13 +43,7 @@ class ViaCepViewController: UIViewController {
     func realizarBusca(enviarPara destination: CepViewController) {
         ViaCepAPI.buscaCep(cep: cepTextField.text!) { (endereco) in
             DispatchQueue.main.async {
-                /*
-                 Este endereco está sendo enviado, porém não chega na view CepViewController.
-                 Se eu adicionar um didSet na variavel endereco que está em CepViewController,
-                 o valor aparecerá, porém se criará um conflito com a TableView, e caso eu clique
-                 em qualquer item da lista, acusará um erro.
-                */
-                destination.endereco = endereco
+                destination.enderecoAPI = endereco
             }
         }
     }

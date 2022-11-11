@@ -22,6 +22,12 @@ class CepViewController: UIViewController {
     @IBOutlet weak var botaoSalvar: UIButton!
         
     var endereco: Endereco?
+    var enderecoAPI: Endereco? {
+        didSet {
+            guard let enderecoAPI = enderecoAPI else { return }
+            setupViews(com: enderecoAPI)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
